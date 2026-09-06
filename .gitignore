@@ -1,0 +1,84 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Packages
+packages/
+
+# Publish output
+publish/
+Publish/
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+
+# Coverage
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+
+# Azure
+PublishProfiles/
+
+# Secrets
+secrets.json
+
+# ASP.NET Core User Secrets
+**/secrets.json
+
+# Environment files
+.env
+.env.*
+
+# Generated files
+Generated/
+GeneratedFiles/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# DotCover
+*.dotCover
+
+# Local databases
+*.mdf
+*.ldf
+
+# SQLite databases (optional)
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp

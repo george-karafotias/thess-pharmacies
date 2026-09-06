@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ThessPharmacies.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\geoka\\Downloads\\Εφημερίες_07-09-2026.pdf\""
+    }
+  }
+}

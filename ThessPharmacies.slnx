@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ThessPharmacies.Api/ThessPharmacies.Api.csproj" Id="ca725246-b527-47f2-9633-885557a317ab" />
+  <Project Path="ThessPharmacies.Console/ThessPharmacies.Console.csproj" Id="c9079e71-ca62-423d-8684-179bdf4ec152" />
+  <Project Path="ThessPharmacies.Parser/ThessPharmacies.Parser.csproj" Id="d57bb641-2c5c-46e2-a67b-e8f1faa037cf" />
+</Solution>
