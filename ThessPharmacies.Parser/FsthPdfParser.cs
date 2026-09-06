@@ -217,13 +217,17 @@ public sealed class FsthPdfParser
 
     private static bool IsColumnHeader(string text)
     {
-        return text.Contains("ΠΕΡΙΟΧΗ",
+        return text.Contains(
+                   "ΠΕΡΙΟΧΗ",
                    StringComparison.OrdinalIgnoreCase)
-            || text.Contains("ΦΑΡΜΑΚΕΙΟ",
+            || text.Contains(
+                   "ΦΑΡΜΑΚΕΙΟ",
                    StringComparison.OrdinalIgnoreCase)
-            || text.Contains("ΔΙΕΥΘΥΝΣΗ",
+            || text.Contains(
+                   "ΔΙΕΥΘΥΝΣΗ",
                    StringComparison.OrdinalIgnoreCase)
-            || text.Contains("ΤΗΛΕΦΩΝΟ",
+            || text.Contains(
+                   "ΤΗΛΕΦΩΝΟ",
                    StringComparison.OrdinalIgnoreCase);
     }
 
@@ -330,6 +334,10 @@ public sealed class FsthPdfParser
                 result.DutyDate,
                 dutyType.Value);
 
+        // Ignore pharmacy records without a phone number.
+        if (string.IsNullOrWhiteSpace(pharmacy.Phone))
+            return;
+
         result.Pharmacies.Add(pharmacy);
     }
 
@@ -367,12 +375,6 @@ public sealed class FsthPdfParser
             {
                 result.Warnings.Add(
                     $"Missing address for pharmacy '{pharmacy.Name}'.");
-            }
-
-            if (string.IsNullOrWhiteSpace(pharmacy.Phone))
-            {
-                result.Warnings.Add(
-                    $"Missing phone for pharmacy '{pharmacy.Name}'.");
             }
         }
 
@@ -484,7 +486,8 @@ public sealed class FsthPdfParser
 
                 var phoneIndex =
                     phone.Length > 0
-                        ? allText.IndexOf(phone,
+                        ? allText.IndexOf(
+                            phone,
                             StringComparison.Ordinal)
                         : -1;
 
