@@ -452,7 +452,7 @@ public sealed class FsthPdfParser
                     {
                         nameParts.Add(word.Text);
                     }
-                    else
+                    else if (word.X >= 300 && word.X < 480)
                     {
                         addressParts.Add(word.Text);
                     }

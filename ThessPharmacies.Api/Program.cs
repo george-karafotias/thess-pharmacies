@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<FsthPdfParser>();
 builder.Services.AddScoped<DutyImportService>();
+builder.Services.AddScoped<PharmacyQueryService>();
 
 builder.Services.AddDbContext<ThessPharmaciesDbContext>(
     options =>
