@@ -10,12 +10,16 @@ public sealed class DutyImportService
     private readonly ThessPharmaciesDbContext _db;
     private readonly FsthPdfParser _parser;
 
+    private readonly IGeocodingService _geocodingService;
+
     public DutyImportService(
         ThessPharmaciesDbContext db,
-        FsthPdfParser parser)
+        FsthPdfParser parser,
+        IGeocodingService geocodingService)
     {
         _db = db;
         _parser = parser;
+        _geocodingService = geocodingService;
     }
 
     public async Task<FsthParseResult> ImportAsync(
@@ -53,6 +57,24 @@ public sealed class DutyImportService
             var pharmacy = await FindOrCreatePharmacyAsync(
                 parsedPharmacy,
                 cancellationToken);
+
+            try
+            {
+                var geocodingResult = await _geocodingService.GeocodeAsync(
+                pharmacy.Address,
+                cancellationToken);
+
+                if (geocodingResult != null)
+                {
+                    pharmacy.Latitude = geocodingResult.Latitude;
+                    pharmacy.Longitude = geocodingResult.Longitude;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Warnings.Add(
+                    $"Failed to geocode address '{pharmacy.Address}': {ex.Message}");
+            }
 
             var dutyExists = await _db.PharmacyDuties.AnyAsync(
                 x =>

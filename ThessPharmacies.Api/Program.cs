@@ -7,6 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddHttpClient<IGeocodingService, PhotonGeocodingService>(
+    client =>
+    {
+        client.Timeout = TimeSpan.FromSeconds(10);
+
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(
+            "ThessPharmaciesApi/1.0");
+    });
+
 builder.Services.AddScoped<FsthPdfParser>();
 builder.Services.AddScoped<DutyImportService>();
 builder.Services.AddScoped<PharmacyQueryService>();
