@@ -66,14 +66,6 @@ public sealed class ThessPharmaciesDbContext : DbContext
                     .WithMany(x => x.Duties)
                     .HasForeignKey(x => x.PharmacyId)
                     .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasIndex(x => new
-                {
-                    x.PharmacyId,
-                    x.DutyDate,
-                    x.DutyType
-                })
-                .IsUnique();
             });
 
         modelBuilder.Entity<DutyImport>(

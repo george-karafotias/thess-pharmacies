@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ThessPharmacies.Api.Data;
@@ -11,9 +12,11 @@ using ThessPharmacies.Api.Data;
 namespace ThessPharmacies.Api.Migrations
 {
     [DbContext(typeof(ThessPharmaciesDbContext))]
-    partial class ThessPharmaciesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260913092821_RemoveUniquePharmacyDutyConstraint")]
+    partial class RemoveUniquePharmacyDutyConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
