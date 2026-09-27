@@ -44,12 +44,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseCors("AngularDev");
+app.UseHttpsRedirection();
+
+app.UseCors("AngularApp");
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
 
 app.MapControllers();
 
