@@ -2,14 +2,14 @@
 
 public sealed class DutyPharmacy
 {
-    public DateOnly DutyDate { get; init; }
+    public DateOnly DutyDate { get; set; }
 
-    public string Area { get; init; } = "";
-    public string Name { get; init; } = "";
-    public string Address { get; init; } = "";
-    public string Phone { get; init; } = "";
+    public string Area { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Address { get; set; } = "";
+    public string Phone { get; set; } = "";
 
-    public DutyType DutyType { get; init; }
+    public DutyType DutyType { get; set; }
 
     public override string ToString()
     {

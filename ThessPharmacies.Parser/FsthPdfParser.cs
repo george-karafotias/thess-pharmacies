@@ -6,6 +6,14 @@ namespace ThessPharmacies.Parser;
 
 public sealed class FsthPdfParser
 {
+    private readonly IPharmacyNameResolver? _pharmacyNameResolver;
+
+    public FsthPdfParser(
+        IPharmacyNameResolver? pharmacyNameResolver = null)
+    {
+        _pharmacyNameResolver = pharmacyNameResolver;
+    }
+
     private static readonly Regex PhoneRegex =
         new(@"\b2\d{9}\b", RegexOptions.Compiled);
 
@@ -104,7 +112,7 @@ public sealed class FsthPdfParser
             .ToList();
     }
 
-    private static FsthParseResult ParseLines(
+    private FsthParseResult ParseLines(
         List<PdfLine> lines)
     {
         var result = new FsthParseResult
@@ -245,13 +253,9 @@ public sealed class FsthPdfParser
 
         var text = line.Text;
 
-        // A phone number is a strong indicator that
-        // the line belongs to a new pharmacy record.
         if (PhoneRegex.IsMatch(text))
             return true;
 
-        // The first column contains the area.
-        // Area text starts near the left side of the PDF.
         var firstWord = line.Words[0];
 
         return firstWord.X < 100;
@@ -321,7 +325,7 @@ public sealed class FsthPdfParser
         };
     }
 
-    private static void FlushRecord(
+    private void FlushRecord(
         PharmacyRecordBuilder? builder,
         DutyType? dutyType,
         FsthParseResult result)
@@ -334,9 +338,25 @@ public sealed class FsthPdfParser
                 result.DutyDate,
                 dutyType.Value);
 
-        // Ignore pharmacy records without a phone number.
         if (string.IsNullOrWhiteSpace(pharmacy.Phone))
             return;
+
+        // Try to replace the PDF-parsed name with the
+        // canonical name already stored in the database.
+        if (_pharmacyNameResolver != null &&
+            !string.IsNullOrWhiteSpace(pharmacy.Name))
+        {
+            var canonicalName =
+                _pharmacyNameResolver.FindCanonicalName(
+                    pharmacy.Name,
+                    pharmacy.Area,
+                    pharmacy.Phone);
+
+            if (!string.IsNullOrWhiteSpace(canonicalName))
+            {
+                pharmacy.Name = canonicalName;
+            }
+        }
 
         result.Pharmacies.Add(pharmacy);
     }
@@ -452,7 +472,8 @@ public sealed class FsthPdfParser
                     {
                         nameParts.Add(word.Text);
                     }
-                    else if (word.X >= 300 && word.X < 480)
+                    else if (word.X >= 300 &&
+                             word.X < 480)
                     {
                         addressParts.Add(word.Text);
                     }
@@ -474,8 +495,6 @@ public sealed class FsthPdfParser
             var address =
                 string.Join(" ", addressParts).Trim();
 
-            // Fallback in case PDF geometry doesn't
-            // give us the expected columns.
             if (string.IsNullOrWhiteSpace(name) ||
                 string.IsNullOrWhiteSpace(address))
             {
