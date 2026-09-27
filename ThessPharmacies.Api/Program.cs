@@ -9,21 +9,12 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AngularDev", policy =>
-    {
-        policy
-            .WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
-builder.Services.AddCors(options =>
-{
     options.AddPolicy("AngularApp", policy =>
     {
         policy
-            .WithOrigins("https://thess-pharmacies-app.netlify.app")
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://thess-pharmacies-app.netlify.app")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
